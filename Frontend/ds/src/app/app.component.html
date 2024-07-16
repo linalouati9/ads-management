@@ -1,0 +1,144 @@
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <h1 class="logo"><a routerLink="/">Lian.</a></h1>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" routerLink="/">Acceuil</a></li>
+        <li><a class="nav-link scrollto" routerLink="/about">A propos</a></li>
+        
+        <!-- Add the "dropdown" class to the parent <li> element -->
+        <li class="dropdown">
+          <!-- Add the "nav-link" class to the <a> element -->
+          <a class="nav-link dropdown-toggle" href="#" role="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Annonces
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" routerLink="/annonces">Liste des annonces</a></li>
+              <li><a *ngIf="isAdmin" class="dropdown-item" routerLink="/edit-maison/-1">Ajouter annonce maison</a></li>
+              <li><a *ngIf="isAdmin" class="dropdown-item" routerLink="/edit-terrain/-1">Ajouter annonce terrain</a></li>
+          </ul>
+        </li>
+    
+        <li><a class="nav-link scrollto" routerLink="/team">Equipe</a></li>
+        <li><a class="nav-link scrollto" routerLink="/contact">Contact</a></li>
+
+        <ng-container *ngIf="!isAdmin">
+          <li><a class="getstarted scrollto" data-toggle="modal" data-target="#login" routerLink="/">Se connecter</a></li>
+        </ng-container>
+        <ng-container *ngIf="isAdmin">
+          <li><a class="getstarted scrollto" (click)="logout()">Déconnexion</a></li>
+        </ng-container>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header>
+<!-- End Header -->
+
+<!-- Modal --> 
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content p-3">
+      <form [formGroup]="loginForm" class="needs-validation" novalidate>
+        <h1 class="text-center mb-4">Se connecter</h1>
+        <p class="mb-4 text-center">
+          L'accès à cette section est réservé aux administrateurs du site.<br>
+          Si vous n'êtes pas un administrateur, cette section ne vous concerne pas!
+        </p>
+        <div class="mb-3">
+          <label for="username" class="form-label">Nom d'utilisateur <span style="color: red;">*</span></label>
+          <input type="email" name="username" class="form-control" placeholder="Enter your username" formControlName="username" 
+            [ngClass]="{'is-invalid': loginForm.get('username')?.invalid && loginForm.get('username')?.dirty}">
+          
+            <div *ngIf="(loginForm.get('username')?.invalid && loginForm.get('username')?.dirty)" class="invalid-feedback" >
+            <div *ngIf="loginForm.get('username')?.hasError('required')">
+              Ce champ est obligatoire*
+            </div>
+            <div *ngIf="loginForm.get('username')?.hasError('email')">
+              Enter un nom d'utilisateur valide (username@xx.xx)
+            </div>
+          </div> 
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Mot de passe <span style="color: red;">*</span></label>
+          <input type="password" name="password" class="form-control" placeholder="Enter your password" formControlName="password" 
+            [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.dirty}">
+          <div *ngIf="(loginForm.get('password')?.invalid && loginForm.get('password')?.dirty)" class="invalid-feedback" >
+            <div *ngIf="loginForm.get('password')?.hasError('required')">
+              Ce champ est obligatoire*
+            </div>
+          </div> 
+        </div>
+        
+        <div class="text-center mt-3">
+          <button class="btn btn-info w-100" [disabled]="loginForm.invalid" data-dismiss="modal" (click)="login()">Login</button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+    <router-outlet></router-outlet>
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6 footer-contact">
+          <h3>Lian.</h3>
+          <p>
+            A108 Adam Street <br>
+            Tunis, NY 535022<br>
+            Tunisie <br><br>
+            <strong>Phone:</strong> +216 95 015 138<br>
+            <strong>Email:</strong> lina.louati@fsb.ucar.tn<br>
+          </p>
+        </div>
+
+        <div class="col-lg-2 col-md-6 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-newsletter">
+          <h4>Join Our Newsletter</h4>
+          <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+          <form action="" method="post">
+            <input type="email" name="email"><input type="submit" value="Subscribe">
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- End Footer -->
+

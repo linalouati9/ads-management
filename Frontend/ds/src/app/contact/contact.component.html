@@ -1,0 +1,133 @@
+<div class="container">
+  <section id="contact" class="contact mt-5">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>Contact</h2>
+        <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+      </div>
+
+      <div>
+        <iframe style="border:0; width: 100%; height: 270px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+      </div>
+
+      <div class="row mt-5">
+
+        <div class="col-lg-4">
+          <div class="info">
+            <div class="address">
+              <i class="bi bi-geo-alt"></i>
+              <h4>Location:</h4>
+              <p>A108 Adam Street, Tunis, Tunisie 535022</p>
+            </div>
+
+            <div class="email">
+              <i class="bi bi-envelope"></i>
+              <h4>Email:</h4>
+              <p>lina.louati@fsb.ucar.tn</p>
+            </div>
+
+            <div class="phone">
+              <i class="bi bi-phone"></i>
+              <h4>Call:</h4>
+              <p>+216 95 015 138</p>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-8 mt-5 mt-lg-0">
+
+          <form [formGroup]="reclamationForm" (submit)="sendReclamation()" class="php-email-form">
+            <div class="row gy-2 gx-md-3">
+
+              <div class="col-md-6 form-group">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" 
+                  formControlName="name" 
+                  [ngClass]="{
+                    'is-invalid': reclamationForm.get('name')?.invalid && reclamationForm.get('name')?.dirty,
+                    'is-valid': reclamationForm.get('name')?.valid && reclamationForm.get('name')?.dirty
+                  }">
+                <div *ngIf="reclamationForm.get('name')?.invalid && reclamationForm.get('name')?.dirty" class="invalid-feedback">
+                  <div *ngIf="reclamationForm.get('name')?.hasError('required')">
+                    Required field*
+                  </div>
+                </div>
+                <div *ngIf="reclamationForm.get('name')?.valid && reclamationForm.get('name')?.dirty" class="valid-feedback">
+                </div>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" 
+                  formControlName="email" 
+                  [ngClass]="{
+                    'is-invalid': reclamationForm.get('email')?.invalid && reclamationForm.get('email')?.dirty,
+                    'is-valid': reclamationForm.get('email')?.valid && reclamationForm.get('email')?.dirty
+                  }" required>
+                <div *ngIf="reclamationForm.get('email')?.invalid && reclamationForm.get('email')?.dirty" class="invalid-feedback">
+                  <div *ngIf="reclamationForm.get('email')?.hasError('required')">
+                    Required field*
+                  </div>
+                  <div *ngIf="reclamationForm.get('email')?.hasError('email')" >
+                    Please enter a valid email address
+                  </div>
+                </div>
+                <div *ngIf="reclamationForm.get('email')?.valid && reclamationForm.get('email')?.dirty" class="valid-feedback">
+                </div>
+              </div>
+            
+
+              <div class="orm-group col-12">
+                <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject" 
+                  formControlName="subject" 
+                  [ngClass]="{
+                    'is-invalid': reclamationForm.get('subject')?.invalid && reclamationForm.get('subject')?.dirty,
+                    'is-valid': reclamationForm.get('subject')?.valid && reclamationForm.get('subject')?.dirty
+                  }">
+                <div *ngIf="reclamationForm.get('subject')?.invalid && reclamationForm.get('subject')?.dirty" class="invalid-feedback">
+                  <div *ngIf="reclamationForm.get('subject')?.hasError('required')">
+                    Required field*
+                  </div>
+                </div>
+                <div *ngIf="reclamationForm.get('subject')?.valid && reclamationForm.get('subject')?.dirty" class="valid-feedback">
+                </div>
+              </div>
+
+
+              <div class="orm-group col-12">
+                <textarea name="message" class="form-control" id="message" rows="5" placeholder="Message" 
+                  formControlName="message" 
+                  [ngClass]="{
+                    'is-invalid': reclamationForm.get('message')?.invalid && reclamationForm.get('message')?.dirty,
+                    'is-valid': reclamationForm.get('message')?.valid && reclamationForm.get('message')?.dirty
+                  }"></textarea>
+                <div *ngIf="reclamationForm.get('message')?.invalid && reclamationForm.get('message')?.dirty" class="invalid-feedback">
+                  <div *ngIf="reclamationForm.get('message')?.hasError('required')">
+                    Required field*
+                  </div>
+                </div>
+                <div *ngIf="reclamationForm.get('message')?.valid && reclamationForm.get('message')?.dirty" class="valid-feedback">
+                </div>
+              </div>
+
+
+              <div class="my-3 col-12">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+
+              <div class="text-center col-12">
+                <button type="submit" class="btn btn-primary" [disabled]="reclamationForm.invalid">Send Message</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Contact Section -->
+</div>

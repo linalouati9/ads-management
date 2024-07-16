@@ -1,0 +1,176 @@
+<div class="card p-5 mt-5 mx-auto" data-aos="fade-up">
+    <form (ngSubmit)="addTerrain(form)" #form="ngForm"> 
+        
+        <div class="section-title mt-3">
+            <h2 *ngIf="terrain.id === ''; else update_title">Ajout annonce terrain</h2>
+            <ng-template #update_title><h2>Mise à jour annonce</h2></ng-template>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>          
+        <div class="form-group">
+            <label for="typeOffre">Type d'offre <span class="required">*</span></label>
+            <div class="row mb-3 justify-content-center">
+                <div class="form-check form-check-inline col-5">
+                    <input class="form-check-input" type="radio" name="type_offre" id="avendre" value="avendre" [(ngModel)]="terrain.type_offre" [checked]="terrain.type_offre === 'avendre'">
+                    <label class="form-check-label" for="avendre">A vendre</label>
+                </div>
+                <div class="form-check form-check-inline col-5">
+                    <input class="form-check-input" type="radio" name="type_offre" id="alouer" value="alouer" [(ngModel)]="terrain.type_offre" [checked]="terrain.type_offre === 'alouer'">
+                    <label class="form-check-label" for="alouer">A louer</label>
+                </div>
+            </div>
+        </div>
+        
+            <div class="form-group">
+                    <label for="superficie">Superficie du terrain <span class="required">*</span></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="superficie" name="superficie" aria-label="Default" aria-describedby="inputGroup-sizing-default" 
+                            [ngClass]="{'is-invalid': superficie.invalid && superficie.dirty, 'is-valid': superficie.valid && superficie.dirty}" 
+                            #superficie="ngModel" ngModel pattern="^\d+(\.\d{1,2})?$" [(ngModel)]="terrain.superficie" required>
+                
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="inputGroup-sizing-default">m²</span>
+                        </div>
+                        <div *ngIf="superficie.invalid && superficie.dirty && superficie.errors['required']" class="invalid-feedback">
+                            Ce champ est obligatoire*
+                        </div>
+                        <div *ngIf="superficie.invalid && superficie.dirty && !superficie.errors['required']" class="invalid-feedback">
+                            La superficie du terrain doit être un nombre entier ou un nombre réel avec deux décimales après la virgule..
+                        </div>
+                        <div *ngIf="superficie.valid && superficie.dirty" class="valid-feedback">
+                        </div>
+                    </div>
+            </div>
+            
+
+        <div class="form-group">
+            <label for="titre">Titre annonce <span class="required">*</span></label>
+            <input type="text" class="form-control" id="titre" name="titre" 
+            [ngClass]="{'is-invalid': titre.invalid && titre.dirty, 'is-valid': titre.valid && titre.dirty}" 
+            #titre="ngModel" ngModel
+            [(ngModel)] = "terrain.titre_annonce" required>
+
+            <div *ngIf="titre.invalid && titre.dirty" class="invalid-feedback">
+                Ce champ est obligatoire*
+            </div>
+            <div *ngIf="titre.valid && titre.dirty" class="valid-feedback">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description <span class="required">*</span></label>
+            <textarea class="form-control" id="description" name="description" rows="3"
+            [ngClass]="{'is-invalid': description.invalid && description.dirty, 'is-valid': description.valid && description.dirty}" 
+            #description="ngModel" ngModel
+            [(ngModel)] = "terrain.description" required></textarea>
+
+            <div *ngIf="description.invalid && description.dirty" class="invalid-feedback">
+                Ce champ est obligatoire*
+            </div>
+            <div *ngIf="description.valid && description.dirty" class="valid-feedback"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="prix" name="prix" aria-label="Default" aria-describedby="inputGroup-sizing-default" 
+                [ngClass]="{'is-invalid': prix.invalid && prix.dirty}" 
+                #prix="ngModel" ngModel pattern="^\d+(\.\d{1,2})?$"
+                [(ngModel)]="terrain.prix">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="inputGroup-sizing-default">TND</span>
+                </div>
+                <div *ngIf="terrain.prix && prix.invalid && prix.dirty" class="invalid-feedback">
+                    Le prix doit être un nombre entier ou un réel avec deux décimales après la virgule
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col">
+                <label for="ville">Ville <span class="required">*</span></label>
+                <select class="form-control" name="ville" [(ngModel)] = "terrain.ville" required>
+                    <option value="" disabled selected>Veuillez sélèctionnez</option>
+                    <ng-container *ngFor="let ville of villesTunisie">
+                        <option value="{{ ville }}">{{ ville }}</option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-group col">
+                <label for="region" class="label-form">Région</label>
+                <input type="text" class="form-control" id="region" name="region" [(ngModel)] = "terrain.region">
+            </div>
+        </div>
+
+        <!-- Section photos bien -->
+        <div class="form-group my-5">
+            <input type="file" id="images" name="images" (change)="onFileChange($event)" multiple/>
+            <label for="images" class="labelForFile">
+                <i class="fa-solid fa-upload"></i>&nbsp; Choose Or Drop Photos
+            </label>
+        </div> 
+        <div *ngIf="identifiant != '-1'">
+            <p style="color: red;">Note: L'upload des images lors du mise à jour du bien n'écrasse pas les anciennes !</p>
+        </div>
+
+        <hr>
+
+        <h4><strong>Informations vendeur/Locataire</strong></h4>
+        <div class="row">
+            <div class="form-group col">
+                <label for="nom" class="">Nom <span class="required">*</span></label>
+                <input type="text" id="nom" name="nom" class="form-control" 
+                    [ngClass]="{'is-invalid': nom.invalid && nom.dirty, 'is-valid': nom.valid && nom.dirty}" 
+                    ngModel #nom="ngModel"
+                    [(ngModel)]="terrain.contact.nom" required> 
+                <div *ngIf="nom.invalid && nom.dirty" class="invalid-feedback">Ce champ est obligatoire*</div>   
+                <div *ngIf="nom.valid && nom.dirty" class="valid-feedback"></div>                   
+            </div>
+
+            <div class="form-group col">
+                <label for="prenom" class="">Prénom <span class="required">*</span></label>
+                <input type="text" id="prenom" name="prenom" class="form-control"
+                    [ngClass]="{'is-invalid': prenom.invalid && prenom.dirty, 'is-valid': prenom.valid && prenom.dirty}" 
+                    ngModel #prenom="ngModel" 
+                    [(ngModel)]="terrain.contact.prenom" required>  
+                <div *ngIf="prenom.invalid && prenom.dirty" class="invalid-feedback">Ce champ est obligatoire*</div>   
+                <div *ngIf="prenom.valid && prenom.dirty" class="valid-feedback"></div>   
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" 
+                [ngClass]="{'is-invalid': email.invalid && email.dirty, 'is-valid': email.valid && email.dirty}" 
+                ngModel #email="ngModel" required 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" [(ngModel)]="terrain.contact.email"> 
+            
+            <div *ngIf="email.invalid && email.dirty && email.errors['required']" class="invalid-feedback">Ce champs est obligatoire*</div>
+            <div *ngIf="email.invalid && email.dirty" class="invalid-feedback">Veuillez fournir une adresse e-mail valide.</div>
+            <div *ngIf="email.valid && email.dirty" class="valid-feedback"></div>   
+        </div>
+
+        <div class="form-group">
+            <label for="telephone" class="">Téléphone <span class="required">*</span></label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><img width="16" height="16" src="https://img.icons8.com/color/48/tunisia.png" alt="tunisia"/>+216</span>
+                </div>
+                <input type="text" class="form-control" id="telephone" name="telephone"
+                    [ngClass]="{'is-invalid': telephone.invalid && telephone.dirty, 'is-valid': telephone.valid && telephone.dirty}" 
+                    ngModel #telephone="ngModel" required 
+                    pattern="[0-9]{8}" [(ngModel)]="terrain.contact.telephone"> 
+                <div *ngIf="telephone.invalid && telephone.dirty && telephone.errors['required']" class="invalid-feedback">Ce champ est obligatoire*</div>
+                <div *ngIf="telephone.invalid && telephone.dirty" class="invalid-feedback">Le numéro de téléphone doit être composé de 8 chiffres.</div>
+                <div *ngIf="telephone.valid && telephone.dirty" class="valid-feedback"></div>   
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button *ngIf="terrain.id === ''; else update" type="submit" [disabled]="form.invalid" class="btn btn-info w-100 my-3">Ajouter</button>
+            <ng-template #update>
+                <button type="submit" [disabled]="form.invalid" class="btn btn-info w-100 my-3">Mettre à jour</button>
+            </ng-template>
+        </div>   
+     
+    </form>
+
+</div>

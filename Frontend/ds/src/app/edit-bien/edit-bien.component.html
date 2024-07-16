@@ -1,0 +1,155 @@
+<div class="card w-75 p-5 my-5 mx-auto">
+    <form [formGroup]="annonceForm" (ngSubmit)="onSubmit()">
+        <h1 class="mb-3 text-center">Ajouter une annonce</h1>
+
+        <div class="form-group">
+            <label for="typeOffre">Type d'offre <span class="required">*</span></label>
+            <div class="row mb-3 justify-content-center">
+                <div class="form-check form-check-inline col-5">
+                    <input class="form-check-input" type="radio" name="type_offre" id="avendre" value="avendre" formControlName="type_offre">
+                    <label class="form-check-label" for="avendre">A vendre</label>
+                </div>
+                <div class="form-check form-check-inline col-5">
+                    <input class="form-check-input" type="radio" name="type_offre" id="alouer" value="alouer" formControlName="type_offre">
+                    <label class="form-check-label" for="alouer">A louer</label>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="form-group">
+            <label for="categorie">Categorie <span class="required">*</span></label>
+            <select class="form-control" name="categorie" formControlName="categorie" [(ngModel)]="selectedCategory" required>
+                <option value="" disabled selected>Veuillez sélectionner</option>
+                <option value="Maison">Maison</option>
+                <option value="Terrain">Terrain</option>
+            </select>
+        </div>
+
+        <ng-container *ngIf="selectedCategory === 'Maison'">
+            <div class="row">
+                <div class="col">
+                    <label for="superficieT">Superficie de la maison <span class="required">*</span></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="superficieT" name="superficieT" aria-label="Default" aria-describedby="inputGroup-sizing-default" formControlName="superficieT" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="inputGroup-sizing-default">m²</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <label for="superficieH">Superficie habitale <span class="required">*</span></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="superficieH" name="superficieH" aria-label="Default" aria-describedby="inputGroup-sizing-default" formControlName="superficieH" required>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="inputGroup-sizing-default">m²</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="nbChambre">Nombre de chambre <span class="required">*</span></label>
+                        <input type="number" class="form-control" id="nbChambre" name="nbChambre" min="0" max="10" formControlName="nbChambre" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="nbSDB">Nombre de salles de bains <span class="required">*</span></label>
+                        <input type="number" class="form-control" id="nbSDB" name="nbSDB" min="0" max="10" formControlName="nbSDB" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="annee">Annee construction <span class="required">*</span></label>
+                        <input type="number" class="form-control" id="annee" name="annee" min="1900" max="2024" formControlName="annee" required>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="selectedCategory === 'Terrain'">
+            <div class="form-group">
+                <label for="superficie">Superficie <span class="required">*</span></label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="superficie" name="superficie" aria-label="Default" aria-describedby="inputGroup-sizing-default" formControlName="superficie" required>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="inputGroup-sizing-default">m²</span>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="form-group">
+            <label for="titre">Titre annonce <span class="required">*</span></label>
+            <input type="text" class="form-control" id="titre" name="titre" formControlName="titre">
+        </div>
+        <div class="form-group">
+            <label for="description">Description <span class="required">*</span></label>
+            <textarea class="form-control" id="description" name="description" rows="3" formControlName="description" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" id="prix" name="prix" aria-label="Default" aria-describedby="inputGroup-sizing-default" formControlName="prix">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="inputGroup-sizing-default">TND</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col">
+                <label for="ville">Ville <span class="required">*</span></label>
+                <select class="form-control" formControlName="ville" name="ville" required>
+                    <option value="" disabled selected>Veuillez sélèctionnez</option>
+                    <ng-container *ngFor="let ville of villesTunisie">
+                        <option value="{{ ville }}">{{ ville }}</option>
+                    </ng-container>
+                </select>
+            </div>
+            <div class="form-group col">
+                <label for="region" class="label-form">Région</label>
+                <input type="text" class="form-control" id="region" name="region" formControlName="region">
+            </div>
+        </div>
+
+        <div class="form-group my-5">
+            <input type="file" id="photos" name="photos" formControlName="photos" multiple accept="image/*"/>
+            <label for="photos" class="labelForFile">
+                <i class="fa-solid fa-upload"></i>&nbsp; Choose Or Drop Photos
+            </label>
+        </div>
+        
+        <hr>
+        <h1>Informations Vendeur/Locataire</h1>
+        <div class="row">
+            <div class="form-group col">
+                <label for="nom" class="">Nom <span class="required">*</span></label>
+                <input type="text" id="nom" name="nom" class="form-control" formControlName="nom" required>    
+            </div>
+            <div class="form-group col">
+                <label for="prenom" class="">Prénom <span class="required">*</span></label>
+                <input type="text" id="prenom" name="prenom" class="form-control" formControlName="prenom" required>    
+            </div>
+        </div>
+        <div class="form-group col">
+            <label for="email" class="">Email <span class="required">*</span></label>
+            <input type="email" id="email" name="email" class="form-control" formControlName="email" required>    
+        </div>
+        <div class="form-group col">
+            <label for="telephone" class="">Télèphone <span class="required">*</span></label>
+        
+            <div class="input-group mb-3">
+                <div class="input-group-apend">
+                    <span class="input-group-text" id="basic-addon1"><img width="16" height="16" src="https://img.icons8.com/color/48/tunisia.png" alt="tunisia"/>+216</span>
+                </div>
+                <input type="text" class="form-control" id="telephone" name="telephone" formControlName="telephone" required>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Ajouter</button>
+        
+    </form>
+</div>
